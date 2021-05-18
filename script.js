@@ -9,7 +9,7 @@ const SNAKE_HEAD_COLOR = 'darkgreen';
 var gameCanvas = document.getElementById('game');
 var scoreCounter = document.getElementById('score');
 var highScoreCounter = document.getElementById('high-score');
-var gameOver = document.getElementById('game-over');
+var gameOverScreen = document.getElementById('game-over');
 var ctx = gameCanvas.getContext("2d");
 
 gameCanvas.width = WIDTH;
@@ -80,10 +80,7 @@ function moveSnake() {
 function render() {
     ctx.fillStyle = BG_COLOR;
     ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
-
-    ctx.strokestyle = BORDER_COLOR;
     
-
     ctx.fillStyle = 'red';
     ctx.fillRect(foodX, foodY, 10, 10);
     
@@ -98,6 +95,7 @@ function render() {
     ctx.fillRect(snake[0].x, snake[0].y, 10, 10);
 
     ctx.lineWidth = 3;
+    ctx.strokestyle = BORDER_COLOR;
     ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
 }
 
@@ -125,17 +123,6 @@ function changeDirection(dir) {
     }
 }
 
-document.addEventListener('keydown', (event) => {
-    if (!run) {
-        gameOver.style.display = 'none';
-        run = true;
-        startGame();
-    } else {
-        changeDirection(event.key);
-    }
-    
-});
-
 function startGame() {
     snake = [
         {x: 150, y: 150},
@@ -155,18 +142,31 @@ function startGame() {
 
 function endGame() {
     run = false;
-    gameOver.style.display = 'flex';
+    gameOverScreen.style.display = 'flex';
 }
 
-startGame();
-var moveSnakeInterval = setInterval(moveSnake, 200);
-gameOver.onclick = () => {
-    gameOver.style.display = 'none';
+gameOverScreen.onclick = () => {
+    gameOverScreen.style.display = 'none';
     run = true;
     startGame();
 }
 
+document.addEventListener('keydown', (event) => {
+    // keyboard controls
+
+    if (!run) {
+        gameOverScreen.style.display = 'none';
+        run = true;
+        startGame();
+    } else {
+        changeDirection(event.key);
+    }
+    
+});
+
 gameCanvas.onclick = (e) => {
+    // mobile controls
+
     let leftBorder = document.body.clientWidth / 2 - WIDTH / 2;
     let topBorder = document.body.clientHeight / 2 - HEIGHT / 2 - 15;
     let x = e.clientX - leftBorder;
@@ -184,5 +184,7 @@ gameCanvas.onclick = (e) => {
             changeDirection("ArrowRight");
         }
     }
-
 }
+
+startGame();
+var moveSnakeInterval = setInterval(moveSnake, 200);
