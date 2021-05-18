@@ -25,12 +25,19 @@ var snake = [
 ]
 
 var score = 0;
-var highScore = 0;
+var highScore = localStorage.getItem("highScore");
 var dx = 10;
 var dy = 0;
 var foodX, foodY;
 var run = false;
 
+setHighScore((highScore === null) ? 0 : highScore);
+
+function setHighScore(_score) {
+    highScore = _score;
+    localStorage.setItem("highScore", highScore);
+    highScoreCounter.innerHTML = highScore;
+}
 
 function generateFood() {
     foodX = Math.floor(Math.random() * 30) * 10;
@@ -63,10 +70,9 @@ function moveSnake() {
     if (newX == foodX && newY == foodY) {
         score++;
         if (score > highScore) {
-            highScore = score;
+            setHighScore(score);
         }
-        scoreCounter.innerHTML = score;
-        highScoreCounter.innerHTML = highScore;
+        scoreCounter.innerHTML = score;     
         generateFood();
     } else {
         snake.pop();
