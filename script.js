@@ -101,33 +101,37 @@ function render() {
     ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
 }
 
+function changeDirection(dir) {
+    if (dir == 'ArrowUp') {
+        if (dy == 0) {
+            dx = 0;
+            dy = -10;
+        }
+    } else if (dir == 'ArrowDown') {
+        if (dy == 0) {
+            dx = 0;
+            dy = 10;
+        }
+    } else if (dir == 'ArrowLeft') {
+        if (dx == 0) {
+            dx = -10;
+            dy = 0;
+        }
+    } else if (dir == 'ArrowRight') {
+        if (dx == 0) {
+            dx = 10;
+            dy = 0;
+        }
+    }
+}
+
 document.addEventListener('keydown', (event) => {
     if (!run) {
         gameOver.style.display = 'none';
         run = true;
         startGame();
     } else {
-        if (event.key == 'ArrowUp') {
-            if (dy == 0) {
-                dx = 0;
-                dy = -10;
-            }
-        } else if (event.key == 'ArrowDown') {
-            if (dy == 0) {
-                dx = 0;
-                dy = 10;
-            }
-        } else if (event.key == 'ArrowLeft') {
-            if (dx == 0) {
-                dx = -10;
-                dy = 0;
-            }
-        } else if (event.key == 'ArrowRight') {
-            if (dx == 0) {
-                dx = 10;
-                dy = 0;
-            }
-        }
+        changeDirection(event.key);
     }
     
 });
@@ -160,4 +164,25 @@ gameOver.onclick = () => {
     gameOver.style.display = 'none';
     run = true;
     startGame();
+}
+
+gameCanvas.onclick = (e) => {
+    let leftBorder = document.body.clientWidth / 2 - WIDTH / 2;
+    let topBorder = document.body.clientHeight / 2 - HEIGHT / 2 - 15;
+    let x = e.clientX - leftBorder;
+    let y = e.clientY - topBorder;
+    if (75 <= x && x <= 225) {
+        if (y <= 75) {
+            changeDirection("ArrowUp");
+        } else if (y >= 225) {
+            changeDirection("ArrowDown");
+        }
+    } else if (75 <= y && y <= 225) {
+        if (x <= 75) {
+            changeDirection("ArrowLeft");
+        } else if (x >= 225) {
+            changeDirection("ArrowRight");
+        }
+    }
+
 }
