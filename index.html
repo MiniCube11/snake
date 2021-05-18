@@ -10,8 +10,13 @@
 <body>
     <div class="main">
         <canvas id="game"></canvas>
-        <div id="game-over">
+        <div id="game-over" class="overlay-screen">
             <h2>Game Over</h2>
+        </div>
+        <div id="instructions"  class="overlay-screen">
+            <h2>Snake</h2>
+            <p id="keyboard" class="controls">Arrow keys to move </p>
+            <p id="mobile" class="controls">Tap the sides of the screen to move</p>
         </div>
         <div class="scores-container">
             <p>Score: <span id="score">0</span></p>

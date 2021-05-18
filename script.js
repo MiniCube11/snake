@@ -9,6 +9,7 @@ const SNAKE_HEAD_COLOR = 'darkgreen';
 var gameCanvas = document.getElementById('game');
 var scoreCounter = document.getElementById('score');
 var highScoreCounter = document.getElementById('high-score');
+var instructionsScreen = document.getElementById('instructions');
 var gameOverScreen = document.getElementById('game-over');
 var ctx = gameCanvas.getContext("2d");
 
@@ -28,7 +29,8 @@ var highScore = 0;
 var dx = 10;
 var dy = 0;
 var foodX, foodY;
-var run = true;
+var run = false;
+
 
 function generateFood() {
     foodX = Math.floor(Math.random() * 30) * 10;
@@ -75,6 +77,14 @@ function moveSnake() {
         return;
     }
     render();
+}
+
+function renderMobileInstructions() {
+    ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+    ctx.fillRect(75, 0, 150, 75);
+    ctx.fillRect(75, 225, 150, 75);
+    ctx.fillRect(0, 75, 75, 150);
+    ctx.fillRect(225, 75, 75, 150);
 }
 
 function render() {
@@ -124,6 +134,10 @@ function changeDirection(dir) {
 }
 
 function startGame() {
+    instructionsScreen.style.display = 'none';
+    gameOverScreen.style.display = 'none';
+    run = true;
+
     snake = [
         {x: 150, y: 150},
         {x: 140, y: 150},
@@ -146,8 +160,6 @@ function endGame() {
 }
 
 gameOverScreen.onclick = () => {
-    gameOverScreen.style.display = 'none';
-    run = true;
     startGame();
 }
 
@@ -155,8 +167,6 @@ document.addEventListener('keydown', (event) => {
     // keyboard controls
 
     if (!run) {
-        gameOverScreen.style.display = 'none';
-        run = true;
         startGame();
     } else {
         changeDirection(event.key);
@@ -186,5 +196,15 @@ gameCanvas.onclick = (e) => {
     }
 }
 
-startGame();
+let mobileInstructions = document.getElementById('mobile');
+let isMobile = window.getComputedStyle(mobileInstructions).display === "block";
+
+if (isMobile) {
+    renderMobileInstructions();
+}
+
+instructionsScreen.onclick = () => {
+    startGame();
+}
+
 var moveSnakeInterval = setInterval(moveSnake, 200);

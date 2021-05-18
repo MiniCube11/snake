@@ -15,6 +15,14 @@
 
 #game-over {
     display: none;
+}
+
+#instructions {
+    display: flex;
+}
+
+.overlay-screen {
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -25,9 +33,34 @@
     font-size: 1.3em;
 }
 
+.controls {
+    margin: 10px 20px;
+    margin-bottom: 0;
+    font-size: 0.8em;
+}
+
+#keyboard {
+    display: block;
+}
+
+#mobile {
+    display: none;
+    font-size: 0.7em;
+}
+
 .scores-container {
     margin-top: 10px;
     width: 300px;
     display: flex;
     justify-content: space-between;
+}
+
+@media screen and (max-width: 992px) {
+    #keyboard {
+        display: none;
+    }
+
+    #mobile {
+        display: block;
+    }
 }
